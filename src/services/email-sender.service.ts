@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import SES from "aws-sdk/clients/ses";
 import { validateEmailAddress } from "../validators/validators";
 
 export class EmailSenderService implements IEmailSenderService {
@@ -32,8 +33,8 @@ export class EmailSenderService implements IEmailSenderService {
     };
 
     try {
-      await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail(params).promise();
-      return { failedEmails: invalidEmails};
+      await new SES({ apiVersion: "2010-12-01" }).sendEmail(params).promise();
+      return { failedEmails: invalidEmails };
     } catch (error) {
       // in case of error SES fails the batch completely
       return { failedEmails: emails, error: error.message };

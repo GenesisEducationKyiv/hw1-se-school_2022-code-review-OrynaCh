@@ -32,7 +32,7 @@ export class EmailController {
 
   private _subscribe(req: express.Request, res: express.Response) {
     if (!req.body.email) {
-      res.status(400).json({ error: 'Request should contain email field' });
+      res.status(400).json({ error: "Request should contain email field" });
       return;
     }
     if (this._emailRepoService.saveEmail(req.body.email)) {
