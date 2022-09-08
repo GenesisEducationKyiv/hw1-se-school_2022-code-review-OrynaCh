@@ -4,8 +4,7 @@ export class EmailRepoService implements IEmailRepoService {
   private _databaseFileName = "emails.txt";
 
   public saveEmail(email: string): boolean {
-    const existing = this.getAll();
-    if (existing.find((item: string) => item === email)) {
+    if (!this._isEmailUnique(email)) {
       return false;
     }
     fs.appendFileSync(this._databaseFileName, `${email}\n`);
@@ -19,6 +18,14 @@ export class EmailRepoService implements IEmailRepoService {
     const emails = fs.readFileSync(this._databaseFileName).toString().split("\n").map(
       (email: string) => email.trim()).filter((str) => str);
     return emails;
+  }
+
+  private _isEmailUnique(email: string): boolean {
+    const existing = this.getAll();
+    if (existing.find((item: string) => item === email)) {
+      return false;
+    }
+    return true;
   }
 }
 
