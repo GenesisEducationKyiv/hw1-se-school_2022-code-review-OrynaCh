@@ -1,11 +1,12 @@
-import { BitcoinService } from "../src/services/bitcoin.service";
+import { CoinbaseService } from "../src/services/providers/coinbase.service";
 
 describe('Test integration with external Coinbase API', () => {
   test('Bitcoin rate is a relevant number', async () => {
-    const bitcoinService = new BitcoinService()
-    const result = await bitcoinService.getBitcoinPrice();
+    const coinbaseService = new CoinbaseService();
+    const result = await coinbaseService.getBitcoinPrice();
     expect(result).not.toBeNull();
     expect(result).toBeDefined();
+    // TODO update tests
     expect(result).toBeGreaterThan(0);
   });
 });

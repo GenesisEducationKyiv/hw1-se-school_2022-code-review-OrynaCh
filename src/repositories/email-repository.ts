@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export class EmailRepoService implements IEmailRepoService {
+export class EmailRepository implements IEmailRepository {
   private _databaseFileName = "emails.txt";
 
   public saveEmail(email: string): boolean {
@@ -29,7 +29,7 @@ export class EmailRepoService implements IEmailRepoService {
   }
 }
 
-export interface IEmailRepoService {
+export interface IEmailRepository {
   saveEmail(email: string): boolean;
   getAll(): string[];
 }
