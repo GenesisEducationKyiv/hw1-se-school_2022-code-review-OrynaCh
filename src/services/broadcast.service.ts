@@ -1,14 +1,14 @@
-import { IBitcoinService } from "../services/bitcoin.service";
-import { IEmailRepoService } from "../services/email-repository.service";
+import { IEmailRepository } from "../repositories/email-repository";
 import { IEmailDispatchResult, IEmailSenderService } from "../services/email-sender.service";
+import { IBitcoinService } from "./bitcoin-service.factory";
 
 export class BroadcastService implements IBroadcastService {
-  private _emailRepoService: IEmailRepoService;
+  private _emailRepoService: IEmailRepository;
   private _bitcoinService: IBitcoinService;
   private _emailSenderService: IEmailSenderService;
 
   constructor(
-    emailRepoService: IEmailRepoService,
+    emailRepoService: IEmailRepository,
     emailSenderService: IEmailSenderService,
     bitcoinService: IBitcoinService,
   ) {

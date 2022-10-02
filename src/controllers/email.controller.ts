@@ -1,21 +1,29 @@
 import * as express from "express";
-import { BitcoinService, IBitcoinService } from "../services/bitcoin.service";
+import { CoinbaseService } from "../services/providers/coinbase.service";
 import { BroadcastService, IBroadcastService } from "../services/broadcast.service";
-import { EmailRepoService, IEmailRepoService } from "../services/email-repository.service";
+import { EmailRepository, IEmailRepository } from "../repositories/email-repository";
 import { EmailSenderService, IEmailSenderService } from "../services/email-sender.service";
+import { CoinGeckoService } from "../services/providers/coingecko.service";
+import { IBitcoinService } from "../services/bitcoin-service.factory";
+import { BinanceService } from "../services/providers/binance.service";
+import { IProviderChainService, ProviderChainService } from "../services/provider-chain.service";
+import { CacheService, ICacheService } from "../services/cache.service";
 
 export class EmailController {
   public router = express.Router();
 
-  private _emailRepoService: IEmailRepoService;
-  private _bitcoinService: IBitcoinService;
+  private _emailRepoService: IEmailRepository;
+  private _bitcoinService: IProviderChainService;
   private _emailSenderService: IEmailSenderService;
   private _broadcastService: IBroadcastService;
+  private _cacheService: ICacheService;
 
   constructor() {
-    this._emailRepoService = new EmailRepoService();
+    this._emailRepoService = new EmailRepository();
     this._emailSenderService = new EmailSenderService();
-    this._bitcoinService = new BitcoinService();
+    this._cacheService = new CacheService();
+    this._bitcoinService = new ProviderChainService(this._cacheService);
+    
     this._broadcastService = new BroadcastService(
       this._emailRepoService,
       this._emailSenderService,
@@ -49,7 +57,7 @@ export class EmailController {
         res.status(500).json({ error: "Rate service returned unexpected response" });
         return;
       }
-      res.status(200).send(result);
+      res.status(200).send(result.toString());
     } catch (error) {
       res.status(error.response.status).json({ error: `Error: ${error.response.statusText}` });
     }
