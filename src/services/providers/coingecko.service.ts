@@ -9,4 +9,3 @@ export class CoinGeckoService implements IBitcoinService {
     return Number(result?.data?.bitcoin?.uah);
   }
 }
-

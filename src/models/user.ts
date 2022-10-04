@@ -1,3 +1,3 @@
 export interface IUser {
-  email: string
+  email: string;
 }
