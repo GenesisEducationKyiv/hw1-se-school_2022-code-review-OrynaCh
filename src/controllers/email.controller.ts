@@ -1,13 +1,13 @@
 import * as express from "express";
-import { CoinbaseService } from "../services/providers/coinbase.service";
-import { BroadcastService, IBroadcastService } from "../services/broadcast.service";
 import { EmailRepository, IEmailRepository } from "../repositories/email-repository";
-import { EmailSenderService, IEmailSenderService } from "../services/email-sender.service";
-import { CoinGeckoService } from "../services/providers/coingecko.service";
 import { IBitcoinService } from "../services/bitcoin-service.factory";
-import { BinanceService } from "../services/providers/binance.service";
-import { IProviderChainService, ProviderChainService } from "../services/provider-chain.service";
+import { BroadcastService, IBroadcastService } from "../services/broadcast.service";
 import { CacheService, ICacheService } from "../services/cache.service";
+import { EmailSenderService, IEmailSenderService } from "../services/email-sender.service";
+import { IProviderChainService, ProviderChainService } from "../services/provider-chain.service";
+import { BinanceService } from "../services/providers/binance.service";
+import { CoinbaseService } from "../services/providers/coinbase.service";
+import { CoinGeckoService } from "../services/providers/coingecko.service";
 
 export class EmailController {
   public router = express.Router();
@@ -23,7 +23,7 @@ export class EmailController {
     this._emailSenderService = new EmailSenderService();
     this._cacheService = new CacheService();
     this._bitcoinService = new ProviderChainService(this._cacheService);
-    
+
     this._broadcastService = new BroadcastService(
       this._emailRepoService,
       this._emailSenderService,

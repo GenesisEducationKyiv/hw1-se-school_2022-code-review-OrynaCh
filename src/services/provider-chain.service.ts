@@ -3,13 +3,13 @@ import { BitcoinServiceFactory, IBitcoinServiceFactory } from "./bitcoin-service
 import { ICacheService } from "./cache.service";
 
 export interface IProviderChainService {
-  getBitcoinPrice(): Promise<number>,
+  getBitcoinPrice(): Promise<number>;
 }
 
 export interface ICachedRate {
-  currency: string,
-  date: string,
-  rate: number,
+  currency: string;
+  date: Date;
+  rate: number;
 }
 
 export class ProviderChainService implements IProviderChainService {
@@ -26,14 +26,14 @@ export class ProviderChainService implements IProviderChainService {
     if (cachedRate) {
       return cachedRate;
     }
-    for (let [index, serviceName] of config.providerChain.entries()) {
+    for (const [index, providerName] of config.providerChain.entries()) {
       try {
-        const service = this._bitcoinServiceFactory.getOrCreateBitcoinService(serviceName);
+        const service = this._bitcoinServiceFactory.getOrCreateBitcoinService(providerName);
         const bitcoinPrice = await service.getBitcoinPrice();
         this._cacheService.saveRateToCache(bitcoinPrice);
         return bitcoinPrice;
-      } catch(error) {
-        if (index < (config.providerChain.length -1)) continue;
+      } catch (error) {
+        if (index < (config.providerChain.length - 1)) { continue; }
         throw error;
       }
     }

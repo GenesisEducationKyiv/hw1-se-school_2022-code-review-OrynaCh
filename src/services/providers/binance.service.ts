@@ -9,4 +9,3 @@ export class BinanceService implements IBitcoinService {
     return Number(result?.data?.price);
   }
 }
-
